@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class Queryable {
     private Criteria criteria;
-    private Ordered sort;
-    private Integer limit;
-    private Integer skip;
+    private Ordered ordered;
+    private Limited limited;
 }

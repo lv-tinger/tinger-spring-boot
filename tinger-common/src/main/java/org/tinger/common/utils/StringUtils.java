@@ -291,6 +291,17 @@ public class StringUtils {
         return strs;
     }
 
+    public static String repeat(String str, String split, int count) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            if (i != 0) {
+                builder.append(split);
+            }
+            builder.append(str);
+        }
+        return builder.toString();
+    }
+
     public static String format(String str, String... strs) {
         if (str == null) {
             return null;

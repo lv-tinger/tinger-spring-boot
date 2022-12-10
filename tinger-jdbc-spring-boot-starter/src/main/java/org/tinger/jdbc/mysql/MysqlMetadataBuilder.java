@@ -29,13 +29,16 @@ public class MysqlMetadataBuilder implements JdbcMetadataBuilder {
         return metadata;
     }
 
-    private <T, K> void repository(JdbcMetadata<T, K> metadata, Class<T> repositoryType) {
+    private <T, K> void repository(JdbcMetadata<T, K> metadata, Class<?> repositoryType) {
 
         JdbcDatabaseName databaseName = repositoryType.getAnnotation(JdbcDatabaseName.class);
         metadata.setDatabase(databaseName.value());
 
         JdbcDataTableName tableName = repositoryType.getAnnotation(JdbcDataTableName.class);
         metadata.setDatatable(tableName.value());
+
+        JdbcDataSource dataSource = repositoryType.getAnnotation(JdbcDataSource.class);
+        metadata.setDatasource(dataSource.value());
     }
 
     private <T, K> JdbcMetadata<T, K> metadata(Class<T> type) {

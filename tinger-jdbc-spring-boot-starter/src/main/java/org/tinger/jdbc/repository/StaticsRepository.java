@@ -1,6 +1,7 @@
 package org.tinger.jdbc.repository;
 
 import org.tinger.jdbc.queryable.Criteria;
+import org.tinger.jdbc.queryable.Queryable;
 import org.tinger.jdbc.queryable.Update;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by tinger on 2022-10-15
  */
-public interface Repository<T, K> {
+public interface StaticsRepository<T, K> {
     T select(K id);
 
     T update(T document);
@@ -26,4 +27,6 @@ public interface Repository<T, K> {
     List<T> select();
 
     List<T> select(Criteria criteria);
+
+    List<T> select(Queryable queryable);
 }

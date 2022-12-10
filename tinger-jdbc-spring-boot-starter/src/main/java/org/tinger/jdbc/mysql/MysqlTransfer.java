@@ -7,10 +7,7 @@ import org.tinger.common.utils.StringUtils;
 import org.tinger.jdbc.handler.JdbcHandler;
 import org.tinger.jdbc.metadata.JdbcMetadata;
 import org.tinger.jdbc.metadata.JdbcProperty;
-import org.tinger.jdbc.queryable.Criteria;
-import org.tinger.jdbc.queryable.OperateValue;
-import org.tinger.jdbc.queryable.Operation;
-import org.tinger.jdbc.queryable.Update;
+import org.tinger.jdbc.queryable.*;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -24,10 +21,12 @@ public class MysqlTransfer {
     private final List<JdbcHandler<?>> jdbcHandlers = new LinkedList<>();
     private final List<Object> parameters = new LinkedList<>();
     private Criteria criteria;
+    private Ordered ordered;
     private Update update;
     private JdbcMetadata<?, ?> metadata;
     private String updateExpression;
     private String whereExpression;
+    private String orderExpression;
 
 
     public MysqlTransfer resolve() {
@@ -78,18 +77,17 @@ public class MysqlTransfer {
             case NEQ:
                 this.jdbcHandlers.add(property.getHandler());
                 this.parameters.add(value);
-                return property.getColumn() + " " + op.code + " ?";
+                return column(property.getColumn()) + " " + op.code + " ?";
             case NULL:
-                return property.getColumn() + " IS NULL";
+                return column(property.getColumn()) + " IS NULL";
             case NON:
-                return property.getColumn() + " IS NOT NULL";
+                return column(property.getColumn()) + " IS NOT NULL";
             default:
                 throw new UnsupportedOperationException();
         }
     }
 
     private void resolveUpdate() {
-
         if (this.update == null) {
             return;
         }
@@ -99,11 +97,14 @@ public class MysqlTransfer {
         int i = 0;
         for (String column : columns) {
             JdbcProperty jdbcProperty = this.metadata.getPropertyByName(column);
-            updateColumns[i] = jdbcProperty.getColumn() + " = ?";
+            updateColumns[i] = column(column) + " = ?";
             this.jdbcHandlers.add(jdbcProperty.getHandler());
         }
 
         this.updateExpression = StringUtils.join(updateColumns, ", ").trim();
     }
 
+    private String column(String column) {
+        return "`" + column + "`";
+    }
 }
