@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.tinger.jdbc.config.JdbcDataSourceAutoConfig
+org.tinger.jdbc.source.JdbcDataSourceBuilder=\
+  org.tinger.jdbc.source.HikariPoolDataSourceBuilder
