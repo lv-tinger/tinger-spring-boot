@@ -1,4 +1,4 @@
-package org.tinger.web;
+package org.tinger.vo;
 
 import lombok.Builder;
 import lombok.Data;
