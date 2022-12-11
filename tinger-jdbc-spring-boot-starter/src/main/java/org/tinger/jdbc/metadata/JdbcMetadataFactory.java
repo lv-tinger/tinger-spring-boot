@@ -2,7 +2,7 @@ package org.tinger.jdbc.metadata;
 
 import org.tinger.common.utils.ClassUtils;
 import org.tinger.jdbc.core.JdbcDriver;
-import org.tinger.jdbc.repository.AbstractRepository;
+import org.tinger.jdbc.repository.AbstractJdbcRepository;
 import org.tinger.jdbc.mysql.MysqlMetadataBuilder;
 
 import java.util.HashMap;
@@ -17,8 +17,8 @@ public final class JdbcMetadataFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public <T, K> JdbcMetadata<T, K> build(AbstractRepository<T, K> repository) {
-        List<Class<?>> classes = ClassUtils.getGenericSuperclass(this);
+    public <T, K> JdbcMetadata<T, K> build(AbstractJdbcRepository<T, K> repository) {
+        List<Class<?>> classes = ClassUtils.getGenericSuperclass(repository);
         return mapper.get(repository.getDriver()).build((Class<T>) classes.get(0), repository.getClass());
     }
 
