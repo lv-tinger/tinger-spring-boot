@@ -30,7 +30,6 @@ public class MysqlMetadataBuilder implements JdbcMetadataBuilder {
     }
 
     private <T, K> void repository(JdbcMetadata<T, K> metadata, Class<?> repositoryType) {
-
         JdbcDatabaseName databaseName = repositoryType.getAnnotation(JdbcDatabaseName.class);
         metadata.setDatabase(databaseName.value());
 

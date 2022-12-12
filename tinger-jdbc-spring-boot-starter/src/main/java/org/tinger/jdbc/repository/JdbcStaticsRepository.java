@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by tinger on 2022-10-15
  */
-public interface StaticsRepository<T, K> {
+public interface JdbcStaticsRepository<T, K> {
     T select(K id);
 
     T update(T document);

@@ -1,16 +1,19 @@
-package org.tinger.serv.security.po;
+package org.tinger.serv.warrant.po;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.tinger.jdbc.core.JdbcEntity;
 
 import java.util.Date;
 
-@SuperBuilder
-@Getter
-@Setter
-public class Permission extends JdbcEntity<String> {
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Permission implements JdbcEntity<String> {
+    private String id;
     private Long userId;
     private String imei;
     private String driver;

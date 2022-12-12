@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by tinger on 2022-10-16
  */
-public interface DynamicRepository<T, K> {
+public interface JdbcDynamicRepository<T, K> {
     T select(Object shard, K id);
 
     T update(Object shard, T document);

@@ -1,9 +1,11 @@
-package org.tinger.serv.security.api;
+package org.tinger.serv.warrant.api;
 
-import org.tinger.serv.security.po.Account;
+import org.springframework.stereotype.Service;
+import org.tinger.serv.warrant.po.Account;
 import org.tinger.vo.Message;
 
-public interface AccountService {
+@Service
+public interface WarrantService {
     Account register(Account account);
 
     Account loadAccountByUsername(String username);

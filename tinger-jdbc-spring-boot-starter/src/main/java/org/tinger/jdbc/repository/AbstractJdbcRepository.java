@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Created by tinger on 2022-10-17
  */
-public abstract class AbstractRepository<T, K> implements InitializingBean {
+public abstract class AbstractJdbcRepository<T, K> implements InitializingBean {
 
     protected JdbcMetadata<T, K> metadata;
     protected JdbcDialect dialect;
@@ -29,7 +29,7 @@ public abstract class AbstractRepository<T, K> implements InitializingBean {
     public abstract JdbcDriver getDriver();
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         this.metadata = JdbcMetadataFactory.getInstance().build(this);
         this.dialect = JdbcDialectFactory.getInstance().getDialect(this.getDriver());
     }

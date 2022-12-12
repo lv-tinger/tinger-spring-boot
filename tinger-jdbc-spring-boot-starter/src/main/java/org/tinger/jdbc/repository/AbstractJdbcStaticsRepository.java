@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by tinger on 2022-10-17
  */
-public abstract class AbstractStaticsRepository<T, K> extends AbstractRepository<T, K> implements StaticsRepository<T, K> {
+public abstract class AbstractJdbcStaticsRepository<T, K> extends AbstractJdbcRepository<T, K> implements JdbcStaticsRepository<T, K> {
     private DataSource source;
     @Autowired
     private TingerJdbcDataSource tingerJdbcDataSource;

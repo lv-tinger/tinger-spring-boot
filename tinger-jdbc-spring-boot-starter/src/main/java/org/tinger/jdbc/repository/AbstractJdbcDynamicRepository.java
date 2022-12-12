@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.tinger.common.utils.CollectionUtils;
 import org.tinger.jdbc.core.JdbcEntity;
 import org.tinger.jdbc.dialect.JdbcDialect;
+import org.tinger.jdbc.dialect.JdbcDialectFactory;
 import org.tinger.jdbc.dialect.JdbcExecuteContext;
 import org.tinger.jdbc.queryable.Criteria;
 import org.tinger.jdbc.queryable.Update;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by tinger on 2022-10-17
  */
-public abstract class AbstractDynamicRepository<T extends JdbcEntity<K>, K> extends AbstractRepository<T, K> implements DynamicRepository<T, K>, InitializingBean {
+public abstract class AbstractJdbcDynamicRepository<T extends JdbcEntity<K>, K> extends AbstractJdbcRepository<T, K> implements JdbcDynamicRepository<T, K>, InitializingBean {
     private List<DataSource> sources;
     private JdbcDialect dialect;
     @Autowired
@@ -25,9 +26,10 @@ public abstract class AbstractDynamicRepository<T extends JdbcEntity<K>, K> exte
 
     @Override
     public void afterPropertiesSet() {
+        super.afterPropertiesSet();
         this.sources = tingerJdbcDataSource.shard(this.metadata.getDatasource());
+        this.dialect = JdbcDialectFactory.getInstance().getDialect(getDriver());
     }
-
 
     @Override
     public T create(Object shard, T document) {
