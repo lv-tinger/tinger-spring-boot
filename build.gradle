@@ -51,7 +51,7 @@ subprojects {
         implementation 'com.alibaba:fastjson:1.2.58'
         implementation 'com.zaxxer:HikariCP'
         implementation 'com.caucho:hessian:4.0.66'
-        implementation "io.lettuce:lettuce-core:5.0.5.RELEASE"
+        implementation 'io.lettuce:lettuce-core:6.2.2.RELEASE'
     }
 
     task sourceJar(type: Jar) {
