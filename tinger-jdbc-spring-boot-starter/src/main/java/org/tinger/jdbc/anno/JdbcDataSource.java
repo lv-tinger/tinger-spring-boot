@@ -10,6 +10,4 @@ import java.lang.annotation.*;
 @Inherited
 public @interface JdbcDataSource {
     String value();
-
-    JdbcDriver driver() default JdbcDriver.MYSQL;
 }

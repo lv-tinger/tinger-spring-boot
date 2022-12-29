@@ -2,6 +2,7 @@ package org.tinger.jdbc.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.tinger.common.utils.CollectionUtils;
+import org.tinger.jdbc.core.JdbcDriver;
 import org.tinger.jdbc.dialect.JdbcExecuteContext;
 import org.tinger.jdbc.queryable.Criteria;
 import org.tinger.jdbc.queryable.Queryable;
@@ -128,5 +129,10 @@ public abstract class AbstractJdbcStaticsRepository<T, K> extends AbstractJdbcRe
         } else {
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public JdbcDriver getDriver() {
+        return JdbcDriver.MYSQL;
     }
 }
