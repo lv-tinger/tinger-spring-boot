@@ -1,6 +1,7 @@
 package org.tinger.common.utils;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by tinger on 2022-10-01
@@ -52,5 +53,9 @@ public class RandomUtils {
         Validate.isTrue(end >= start);
         Validate.isTrue(start >= 0);
         return start == end ? start : start + nextLong(end - start);
+    }
+
+    public static String nextId() {
+        return UUID.randomUUID().toString();
     }
 }

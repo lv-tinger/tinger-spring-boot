@@ -160,6 +160,7 @@ public class MysqlJdbcDialect implements JdbcDialect {
         String pms = "`" + primaryKey.getColumn() + "` = ?";
         Object primaryValue = primaryKey.getValue(document);
         parameters.add(primaryValue);
+        jdbcHandlers.add(primaryKey.getHandler());
 
         String command = StringUtils.format(UPDATE_SQL_TEMPLATE, db, dt, cns);
         command = StringUtils.format(WHERE_SQL_TEMPLATE, command, pms);

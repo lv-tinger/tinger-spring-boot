@@ -23,6 +23,7 @@ public abstract class AbstractJdbcStaticsRepository<T, K> extends AbstractJdbcRe
 
     @Override
     public void afterPropertiesSet() {
+        super.afterPropertiesSet();
         this.source = this.tingerJdbcDataSource.load(this.metadata.getDatasource());
     }
 
@@ -37,7 +38,6 @@ public abstract class AbstractJdbcStaticsRepository<T, K> extends AbstractJdbcRe
             return null;
         }
     }
-
     @Override
     public List<T> select() {
         JdbcExecuteContext<T, K> context = JdbcExecuteContext.<T, K>builder().metadata(this.metadata).build();

@@ -38,6 +38,6 @@ public class JdbcExecuteContext<T, ID> {
     public String calculateDatatable() {
         return this.metadata.shardingMetadata()
                 ? metadata.getShardCalculator().calculateDatatable(metadata.getDatatable(), shard)
-                : metadata.getDatabase();
+                : metadata.getDatatable();
     }
 }

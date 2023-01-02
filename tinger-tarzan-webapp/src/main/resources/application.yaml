@@ -1,6 +1,29 @@
 server:
   port: 8080
 
+springdoc:
+  show-actuator: false
+  use-management-port: false
+  api-docs:
+    enabled: true
+    path: /define/api.html
+  swagger-ui:
+    enabled: true
+    path: /define/doc.html
+  packages-to-scan:
+    - org.tinger.web.controller.api
+    - org.tinger.web.controller.venus
+
+management:
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include:
+          - openapi
+          - swagger-ui
+
 tinger:
   jdbc:
     config:

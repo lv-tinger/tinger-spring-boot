@@ -3,6 +3,7 @@ package org.tinger.jdbc.repository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.tinger.common.utils.CollectionUtils;
+import org.tinger.jdbc.core.JdbcDriver;
 import org.tinger.jdbc.core.JdbcEntity;
 import org.tinger.jdbc.dialect.JdbcDialect;
 import org.tinger.jdbc.dialect.JdbcDialectFactory;
@@ -23,6 +24,11 @@ public abstract class AbstractJdbcDynamicRepository<T extends JdbcEntity<K>, K> 
     private JdbcDialect dialect;
     @Autowired
     private TingerJdbcDataSource tingerJdbcDataSource;
+
+    @Override
+    public JdbcDriver getDriver() {
+        return JdbcDriver.MYSQL;
+    }
 
     @Override
     public void afterPropertiesSet() {

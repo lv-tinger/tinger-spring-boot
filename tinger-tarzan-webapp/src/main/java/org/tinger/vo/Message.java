@@ -7,27 +7,27 @@ import java.io.Serializable;
 
 @Data
 @Builder
-public class Message implements Serializable {
+public class Message<T> implements Serializable {
     private Integer code;
     private String info;
-    private Object data;
+    private T data;
 
-    public Message success() {
+    public Message<T> success() {
         this.code = 200;
         return this;
     }
 
-    public Message warring() {
+    public Message<T> warring() {
         this.code = 300;
         return this;
     }
 
-    public Message forbade() {
+    public Message<T> forbade() {
         this.code = 400;
         return this;
     }
 
-    public Message failure() {
+    public Message<T> failure() {
         this.code = 500;
         return this;
     }
