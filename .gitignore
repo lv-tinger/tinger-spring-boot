@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 */build/
+/tinger-docker/minio-singlet/config/
+/tinger-docker/minio-singlet/data/
