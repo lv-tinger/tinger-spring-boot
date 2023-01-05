@@ -1,4 +1,4 @@
-package org.tinger.web.template;
+package org.tinger.template;
 
 import io.minio.*;
 import io.minio.messages.Bucket;
@@ -6,9 +6,9 @@ import io.minio.messages.Tags;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.tinger.common.utils.IoUtils;
-import org.tinger.web.enums.MimeTypeEnum;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -207,41 +207,6 @@ public class MinioClientTemplate {
     }
 
     /**
-     * 上传文件流到存储桶
-     *
-     * @param bucketName 存储桶
-     * @param filePath   文件保存路径
-     * @param buf        文件流
-     * @param objectSize 文件大小
-     * @return 文件保存路径
-     */
-    public String upload(String bucketName, String filePath, BufferedInputStream buf, Long objectSize) throws IOException {
-        // 获取文件的 type
-        buf.mark(0);
-        String fileType = FileTypeUtil.getType(buf, filePath);
-        buf.reset();
-        // 文件类型转换为contentType
-        String contentType = MimeTypeEnum.getContentType(fileType);
-        // 上传
-        return upload(bucketName, filePath, buf, objectSize, contentType);
-    }
-
-    /**
-     * 上传文件流到存储桶.
-     *
-     * @param bucketName 存储桶
-     * @param filePath   文件保存路径
-     * @param sourcePath 待上传的文件路径
-     * @return 文件保存路径
-     * @throws IOException 待上传的文件不存在
-     */
-    public String upload(String bucketName, String filePath, String sourcePath) throws IOException {
-        File file = new File(sourcePath);
-        BufferedInputStream stream = FileUtil.getInputStream(file);
-        return upload(bucketName, filePath, stream, file.length());
-    }
-
-    /**
      * 文件保存到本地路径
      *
      * @param bucketName 存储桶
@@ -276,7 +241,7 @@ public class MinioClientTemplate {
         }
         GetObjectResponse response = getObject(bucketName, filePath);
         if (Objects.nonNull(response)) {
-            IoUtil.copy(response, out);
+            IoUtils.copy(response, out);
             IoUtils.close(response);
             return response;
         }
