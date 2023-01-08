@@ -10,8 +10,8 @@ services:
       MINIO_ACCESS_KEY: admin #控制台登录账号
       MINIO_SECRET_KEY: 12345678 #控制台登录密码
     volumes:
-      - ./data:/data      #存储路径         
-      - ./config:/root/.minio/   #配置文件  
+      - /opt/minio/data:/data      #存储路径
+      - /opt/minio/config:/root/.minio/   #配置文件
     command: server --console-address ':9001' /data
     privileged: true
     restart: always
