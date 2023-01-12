@@ -22,8 +22,6 @@ import java.util.List;
 public abstract class AbstractJdbcDynamicRepository<T extends JdbcEntity<K>, K> extends AbstractJdbcRepository<T, K> implements JdbcDynamicRepository<T, K>, InitializingBean {
     private List<DataSource> sources;
     private JdbcDialect dialect;
-    @Autowired
-    private TingerJdbcDataSource tingerJdbcDataSource;
 
     @Override
     public JdbcDriver getDriver() {
@@ -31,10 +29,8 @@ public abstract class AbstractJdbcDynamicRepository<T extends JdbcEntity<K>, K> 
     }
 
     @Override
-    public void afterPropertiesSet() {
-        super.afterPropertiesSet();
-        this.sources = tingerJdbcDataSource.shard(this.metadata.getDatasource());
-        this.dialect = JdbcDialectFactory.getInstance().getDialect(getDriver());
+    final void wrapperSource(TingerJdbcDataSource source) {
+        this.sources = source.shard(this.metadata.getDatasource());
     }
 
     @Override

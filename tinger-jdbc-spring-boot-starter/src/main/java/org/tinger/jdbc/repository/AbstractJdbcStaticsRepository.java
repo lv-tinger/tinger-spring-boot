@@ -18,13 +18,10 @@ import java.util.List;
  */
 public abstract class AbstractJdbcStaticsRepository<T, K> extends AbstractJdbcRepository<T, K> implements JdbcStaticsRepository<T, K> {
     private DataSource source;
-    @Autowired
-    private TingerJdbcDataSource tingerJdbcDataSource;
 
     @Override
-    public void afterPropertiesSet() {
-        super.afterPropertiesSet();
-        this.source = this.tingerJdbcDataSource.load(this.metadata.getDatasource());
+    final void wrapperSource(TingerJdbcDataSource source) {
+        this.source = source.load(this.metadata.getDatasource());
     }
 
     @Override

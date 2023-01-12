@@ -1,6 +1,10 @@
 package org.tinger.jdbc.repository;
 
+import jakarta.annotation.Nonnull;
+import lombok.NonNull;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.tinger.jdbc.core.JdbcDriver;
 import org.tinger.jdbc.dialect.JdbcDialect;
 import org.tinger.jdbc.dialect.JdbcDialectFactory;
@@ -9,6 +13,7 @@ import org.tinger.jdbc.handler.JdbcHandler;
 import org.tinger.jdbc.metadata.JdbcMetadata;
 import org.tinger.jdbc.metadata.JdbcMetadataFactory;
 import org.tinger.jdbc.metadata.JdbcProperty;
+import org.tinger.jdbc.source.TingerJdbcDataSource;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -19,20 +24,30 @@ import java.util.logging.Logger;
 /**
  * Created by tinger on 2022-10-17
  */
-public abstract class AbstractJdbcRepository<T, K> implements InitializingBean {
+public abstract class AbstractJdbcRepository<T, K> implements InitializingBean, ApplicationContextAware {
 
     protected JdbcMetadata<T, K> metadata;
     protected JdbcDialect dialect;
     private final Logger logger = Logger.getLogger(getDriver().name());
 
+    private ApplicationContext applicationContext;
 
-    public abstract JdbcDriver getDriver();
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public void afterPropertiesSet() {
         this.metadata = JdbcMetadataFactory.getInstance().build(this);
         this.dialect = JdbcDialectFactory.getInstance().getDialect(this.getDriver());
+        @Nonnull TingerJdbcDataSource source = this.applicationContext.getBean(TingerJdbcDataSource.class);
+        wrapperSource(source);
     }
+
+    public abstract JdbcDriver getDriver();
+
+    abstract void wrapperSource(TingerJdbcDataSource source);
 
     @SuppressWarnings("unchecked")
     public K getId(T document) {
@@ -49,7 +64,6 @@ public abstract class AbstractJdbcRepository<T, K> implements InitializingBean {
             try {
                 connection.close();
             } catch (SQLException ignore) {
-
             }
         }
     }
