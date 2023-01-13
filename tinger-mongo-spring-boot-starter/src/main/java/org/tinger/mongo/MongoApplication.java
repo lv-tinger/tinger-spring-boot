@@ -1,10 +1,8 @@
 package org.tinger.mongo;
 
 import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
+import org.bson.Document;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -31,6 +29,11 @@ public class MongoApplication {
             MongoDatabase database = mongoClient.getDatabase("tinger");
             MongoCollection<Account> collection = database.getCollection("account", Account.class).withCodecRegistry(pojoCodecRegistry);
             Account account = Account.builder().id(RandomUtils.nextId()).username("risesun").password("123456").build();
+            MongoCollection<Document> documentMongoCollection = database.getCollection("account");
+            FindIterable<Document> documents = documentMongoCollection.find();
+            for (Document document: documents){
+
+            }
             collection.insertOne(account);
             System.out.println("hello world");
         } finally {
