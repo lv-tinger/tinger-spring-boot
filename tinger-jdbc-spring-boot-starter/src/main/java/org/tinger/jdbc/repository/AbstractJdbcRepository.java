@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Created by tinger on 2022-10-17
+ * Created by tinger on 2023-10-17
  */
 public abstract class AbstractJdbcRepository<T, K> implements InitializingBean, ApplicationContextAware {
 
