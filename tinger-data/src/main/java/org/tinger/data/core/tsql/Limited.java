@@ -1,4 +1,4 @@
-package org.tinger.data.core.queryable;
+package org.tinger.data.core.tsql;
 
 import lombok.Builder;
 import lombok.Data;

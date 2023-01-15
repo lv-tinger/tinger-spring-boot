@@ -1,4 +1,4 @@
-package org.tinger.data.core.queryable;
+package org.tinger.data.core.tsql;
 
 import java.util.LinkedHashMap;
 

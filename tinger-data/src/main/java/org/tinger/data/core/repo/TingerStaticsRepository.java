@@ -1,33 +1,35 @@
 package org.tinger.data.core.repo;
 
-import org.tinger.data.core.queryable.Criteria;
-import org.tinger.data.core.queryable.Queryable;
-import org.tinger.data.core.queryable.Update;
+import org.tinger.data.core.tsql.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface TingerStaticsRepository<T, K> {
-    T select(K id);
+    T create(T document);
+
+    List<T> create(List<T> documents);
 
     T update(T document);
 
     List<T> update(List<T> documents);
 
-    T create(T document);
-
-    List<T> create(List<T> documents);
-
     T upsert(T document);
-
-    T delete(T document);
-
-    List<T> delete(Criteria criteria);
 
     List<T> update(Update update, Criteria criteria);
 
+    T delete(K id);
+
+    List<T> delete(List<K> ids);
+
     List<T> select();
+
+    T select(K id);
+
+    Map<K, T> select(Collection<K> ids);
 
     List<T> select(Criteria criteria);
 
-    List<T> select(Queryable queryable);
+    List<T> select(Criteria criteria, Ordered ordered, Limited limited);
 }

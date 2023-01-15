@@ -35,8 +35,6 @@ public class MysqlJdbcDialect implements JdbcDialect {
 
         List<Object> parameters = new LinkedList<>();
         List<JdbcHandler<?>> jdbcHandlers = new LinkedList<>();
-
-
         List<String> propertyNames = new LinkedList<>();
         for (JdbcProperty property : properties) {
             Object value = property.getValue(document);

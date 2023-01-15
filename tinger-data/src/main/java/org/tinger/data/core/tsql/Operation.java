@@ -1,4 +1,4 @@
-package org.tinger.data.core.queryable;
+package org.tinger.data.core.tsql;
 
 /**
  * Created by tinger on 2022-10-16

@@ -8,4 +8,5 @@ import java.lang.annotation.*;
 @Inherited
 public @interface TingerDatabase {
     String value();
+    boolean shard() default false;
 }

@@ -2,6 +2,7 @@ package org.tinger.data.core.meta;
 
 import lombok.Builder;
 import lombok.Data;
+import org.tinger.data.jdbc.handler.JdbcHandler;
 
 import java.lang.reflect.Field;
 
@@ -12,4 +13,17 @@ public class TingerProperty {
     private Class<?> type;
     private String column;
     private Field field;
+    private JdbcHandler<?> handler;
+
+    public Object getValue(Object object) throws IllegalAccessException {
+        return field.get(object);
+    }
+
+    public void setValue(Object object, Object value) throws IllegalAccessException {
+        if (value == null) {
+            return;
+        }
+
+        field.set(object, value);
+    }
 }

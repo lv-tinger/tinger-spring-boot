@@ -7,9 +7,9 @@ import java.util.List;
 
 @Data
 @Builder
-public class TingerMetadata {
-    private Class<?> type;
-    private Constructor<?> constructor;
+public class TingerMetadata<T> {
+    private Class<T> type;
+    private Constructor<T> constructor;
     private TingerProperty primaryKey;
     private List<TingerProperty> properties;
 }
