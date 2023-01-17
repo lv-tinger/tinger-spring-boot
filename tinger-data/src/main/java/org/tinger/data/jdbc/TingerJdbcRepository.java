@@ -6,13 +6,25 @@ import org.tinger.data.jdbc.handler.JdbcHandler;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K> {
-    protected TingerJdbcRepository() {
 
+    private ResultSetResolver resultSetResolver;
+
+    protected TingerJdbcRepository() {
+        super();
+        prepareResolver();
+    }
+
+    private void prepareResolver() {
+        ArrayList<TingerProperty> properties = new ArrayList<>();
+        properties.add(this.metadata.getPrimaryKey());
+        properties.addAll(this.metadata.getProperties());
+        this.resultSetResolver = ResultSetResolver.builder().constructor(this.metadata.getConstructor()).properties(properties).build();
     }
 
     protected List<T> select(DataSource source, String command) {

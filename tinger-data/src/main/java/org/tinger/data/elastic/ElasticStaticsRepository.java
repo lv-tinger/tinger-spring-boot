@@ -1,15 +1,21 @@
 package org.tinger.data.elastic;
 
-import org.tinger.data.core.tsql.Criteria;
-import org.tinger.data.core.tsql.Queryable;
-import org.tinger.data.core.tsql.Update;
+import org.tinger.data.core.tsql.*;
 import org.tinger.data.core.repo.TingerStaticsRepository;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class ElasticStaticsRepository<K,T> implements TingerStaticsRepository<T,K> {
+
     @Override
-    public T select(K id) {
+    public T create(T document) {
+        return null;
+    }
+
+    @Override
+    public List<T> create(List<T> documents) {
         return null;
     }
 
@@ -24,27 +30,7 @@ public class ElasticStaticsRepository<K,T> implements TingerStaticsRepository<T,
     }
 
     @Override
-    public T create(T document) {
-        return null;
-    }
-
-    @Override
-    public List<T> create(List<T> documents) {
-        return null;
-    }
-
-    @Override
     public T upsert(T document) {
-        return null;
-    }
-
-    @Override
-    public T delete(T document) {
-        return null;
-    }
-
-    @Override
-    public List<T> delete(Criteria criteria) {
         return null;
     }
 
@@ -54,7 +40,27 @@ public class ElasticStaticsRepository<K,T> implements TingerStaticsRepository<T,
     }
 
     @Override
+    public T delete(K id) {
+        return null;
+    }
+
+    @Override
+    public List<T> delete(List<K> ids) {
+        return null;
+    }
+
+    @Override
     public List<T> select() {
+        return null;
+    }
+
+    @Override
+    public T select(K id) {
+        return null;
+    }
+
+    @Override
+    public Map<K, T> select(Collection<K> ids) {
         return null;
     }
 
@@ -64,7 +70,7 @@ public class ElasticStaticsRepository<K,T> implements TingerStaticsRepository<T,
     }
 
     @Override
-    public List<T> select(Queryable queryable) {
+    public List<T> select(Criteria criteria, Ordered ordered, Limited limited) {
         return null;
     }
 }

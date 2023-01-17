@@ -3,9 +3,11 @@ package org.tinger.data.jdbc;
 import org.tinger.data.core.anno.TingerDataSource;
 import org.tinger.data.core.anno.TingerDataTable;
 import org.tinger.data.core.anno.TingerDatabase;
-import org.tinger.data.core.tsql.*;
 import org.tinger.data.core.repo.TingerStaticsRepository;
-import org.tinger.data.jdbc.context.*;
+import org.tinger.data.core.tsql.Criteria;
+import org.tinger.data.core.tsql.Limited;
+import org.tinger.data.core.tsql.Ordered;
+import org.tinger.data.core.tsql.Update;
 
 import javax.sql.DataSource;
 import java.util.Collection;
@@ -13,15 +15,18 @@ import java.util.List;
 import java.util.Map;
 
 public class JdbcStaticsRepository<T, K> extends TingerJdbcRepository<T, K> implements TingerStaticsRepository<T, K> {
-    private final String datatableName;
-    private final String databaseName;
-    private final String datasourceName;
+    private String datatableName;
+    private String databaseName;
+    private String datasourceName;
 
     private DataSource datasource;
 
     protected JdbcStaticsRepository() {
         super();
+        resolveStorage();
+    }
 
+    private void resolveStorage() {
         Class<?> repositoryType = this.getClass();
         TingerDataTable tableAnnotation = repositoryType.getDeclaredAnnotation(TingerDataTable.class);
         TingerDataSource sourceAnnotation = repositoryType.getDeclaredAnnotation(TingerDataSource.class);
@@ -34,56 +39,27 @@ public class JdbcStaticsRepository<T, K> extends TingerJdbcRepository<T, K> impl
 
     @Override
     public T create(T document) {
-        try {
-            JdbcExecuteContext context = new JdbcCreateExecuteContext(document, this.metadata, this.databaseName, this.datatableName).resolve();
-            int count = this.update(this.datasource, context.getCommandText(), context.getParameterHandlers(), context.getParameterValues());
-            return count > 0 ? document : null;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
     public List<T> create(List<T> documents) {
-        try {
-            JdbcExecuteBatchContext context = new JdbcCreateExecuteBatchContext((List<Object>) documents, this.metadata, this.databaseName, this.datatableName).resolve();
-            int count = this.updateBatch(this.datasource, context.getCommandText(), context.getParameterHandlers(), context.getParameterValues());
-            return count > 0 ? documents : null;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
     public T update(T document) {
-        try {
-            JdbcExecuteContext context = new JdbcUpdateExecuteContext(document, this.metadata, this.databaseName, this.datatableName).resolve();
-            int count = this.update(this.datasource, context.getCommandText(), context.getParameterHandlers(), context.getParameterValues());
-            return count > 0 ? document : null;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
     public List<T> update(List<T> documents) {
-        try {
-            JdbcExecuteBatchContext context = new JdbcUpdateExecuteBatchContext((List<Object>) documents, this.metadata, this.databaseName, this.datatableName).resolve();
-            int count = this.updateBatch(this.datasource, context.getCommandText(), context.getParameterHandlers(), context.getParameterValues());
-            return count > 0 ? documents : null;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return null;
     }
 
     @Override
     public T upsert(T document) {
-        T update = this.update(document);
-        if (update == null) {
-            update = this.create(document);
-        }
-
-        return update;
+        return null;
     }
 
     @Override

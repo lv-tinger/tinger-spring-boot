@@ -53,8 +53,10 @@ public class TingerMetadataBuilder {
             column = tingerDataColumn.value();
         }
 
-        JdbcHandler<?> handler = JdbcHandlerHolder.getInstance().get(field.getType());
+        return TingerProperty.builder().name(field.getName()).column(column).type(field.getType()).field(field).build();
 
-        return TingerProperty.builder().name(field.getName()).column(column).type(field.getType()).field(field).handler(handler).build();
+        //JdbcHandler<?> handler = JdbcHandlerHolder.getInstance().get(field.getType());
+
+        //return TingerProperty.builder().name(field.getName()).column(column).type(field.getType()).field(field).handler(handler).build();
     }
 }

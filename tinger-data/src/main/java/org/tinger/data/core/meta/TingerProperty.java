@@ -13,7 +13,7 @@ public class TingerProperty {
     private Class<?> type;
     private String column;
     private Field field;
-    private JdbcHandler<?> handler;
+    //private JdbcHandler<?> handler;
 
     public Object getValue(Object object) throws IllegalAccessException {
         return field.get(object);
