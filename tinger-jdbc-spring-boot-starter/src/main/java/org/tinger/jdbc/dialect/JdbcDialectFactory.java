@@ -22,5 +22,4 @@ public class JdbcDialectFactory {
     public static JdbcDialectFactory getInstance() {
         return factory;
     }
-
 }

@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(path: ':tinger-common')
+
+/*    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.8'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.17.8'*/
+
+    implementation 'com.mysql:mysql-connector-j:8.0.31'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+
+    implementation 'org.mongodb:mongo-java-driver:3.12.11'
+}

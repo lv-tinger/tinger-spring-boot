@@ -1,5 +1,6 @@
 package org.tinger.common.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -10,6 +11,15 @@ import java.util.stream.Collectors;
  * Created by tinger on 2022-10-01
  */
 public class ClassUtils {
+
+    public static Class<?> loadClass(String name) {
+        try {
+            return getDefaultClassLoader().loadClass(name);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static ClassLoader getDefaultClassLoader() {
         ClassLoader classLoader = null;
         try {
@@ -52,5 +62,14 @@ public class ClassUtils {
         Type superclass = type.getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) superclass;
         return Arrays.stream(parameterizedType.getActualTypeArguments()).map(x -> (Class<?>) x).collect(Collectors.toList());
+    }
+
+    public static Object newInstance(Class<?> type, Class<?>[] parameterTypes, Object[] parameterValues) {
+        try {
+            Constructor<?> constructor = ConstructorUtils.getDeclaredConstructor(type, parameterTypes);
+            return constructor.newInstance(parameterValues);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

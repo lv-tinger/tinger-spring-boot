@@ -1,9 +1,10 @@
 rootProject.name = 'tinger-spring-boot'
 
 include(":tinger-common")
-include(":tinger-data")
+include(":tinger-data-spring-boot-starter")
 
 include(":tinger-jdbc-spring-boot-starter")
 include(":tinger-mongo-spring-boot-starter")
 
 include(":tinger-tarzan-webapp")
+include(":tinger-sylvanas-webapp")

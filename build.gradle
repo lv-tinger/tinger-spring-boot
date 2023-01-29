@@ -7,7 +7,7 @@ plugins {
 repositories {
     maven {
         allowInsecureProtocol = true
-        url 'http://192.168.3.93:10001/repository/maven-tinger/'
+        url 'http://localhost:10001/repository/maven-tinger/'
     }
     mavenCentral()
 }
@@ -29,7 +29,7 @@ subprojects {
     repositories {
         maven {
             allowInsecureProtocol = true
-            url 'http://192.168.3.93:10001/repository/maven-tinger/'
+            url 'http://localhost:10001/repository/maven-tinger/'
         }
         mavenCentral()
     }
@@ -37,6 +37,7 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-autoconfigure'
         developmentOnly "org.springframework.boot:spring-boot-devtools"
