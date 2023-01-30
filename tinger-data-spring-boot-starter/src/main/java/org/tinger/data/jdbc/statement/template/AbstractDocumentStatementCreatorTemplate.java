@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.statement;
+package org.tinger.data.jdbc.statement.template;
 
 import org.tinger.data.core.meta.TingerMetadata;
 import org.tinger.data.core.meta.TingerProperty;
@@ -7,11 +7,11 @@ import org.tinger.data.jdbc.handler.JdbcHandler;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-public abstract class AbstractDocumentStatementCreator extends AbstractStatementCreator {
+public abstract class AbstractDocumentStatementCreatorTemplate extends AbstractStatementCreatorTemplate {
     protected List<JdbcHandler<?>> handlers;
     protected List<TingerProperty> properties;
 
-    protected AbstractDocumentStatementCreator(TingerMetadata<?> metadata) {
+    protected AbstractDocumentStatementCreatorTemplate(TingerMetadata<?> metadata) {
         super(metadata);
     }
 

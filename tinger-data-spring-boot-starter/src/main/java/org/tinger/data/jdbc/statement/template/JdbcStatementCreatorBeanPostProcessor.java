@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.statement;
+package org.tinger.data.jdbc.statement.template;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -9,11 +9,11 @@ import org.tinger.common.utils.StringUtils;
 public class JdbcStatementCreatorBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof CustomerStatementCreator creator) {
-            if (StringUtils.equals(creator.getOperation(), CustomerStatementCreator.CREATE)) {
-                DocumentCreateStatementCreator.register(creator.getType(), creator);
-            } else if (StringUtils.equals(creator.getOperation(), CustomerStatementCreator.UPDATE)) {
-                DocumentUpdateStatementCreator.register(creator.getType(), creator);
+        if (bean instanceof CustomerStatementCreatorTemplate creator) {
+            if (StringUtils.equals(creator.getOperation(), CustomerStatementCreatorTemplate.CREATE)) {
+                DocumentCreateStatementCreatorTemplate.register(creator.getType(), creator);
+            } else if (StringUtils.equals(creator.getOperation(), CustomerStatementCreatorTemplate.UPDATE)) {
+                DocumentUpdateStatementCreatorTemplate.register(creator.getType(), creator);
             } else {
                 throw new RuntimeException();
             }

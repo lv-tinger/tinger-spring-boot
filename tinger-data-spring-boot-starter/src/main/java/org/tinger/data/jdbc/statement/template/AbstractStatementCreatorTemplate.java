@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.statement;
+package org.tinger.data.jdbc.statement.template;
 
 import org.tinger.common.utils.StringUtils;
 import org.tinger.data.core.meta.TingerMetadata;
@@ -7,12 +7,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 
-public abstract class AbstractStatementCreator implements StatementCreator {
+public abstract class AbstractStatementCreatorTemplate implements StatementCreatorTemplate {
     protected String commandText;
 
     protected final TingerMetadata<?> metadata;
 
-    protected AbstractStatementCreator(TingerMetadata<?> metadata) {
+    protected AbstractStatementCreatorTemplate(TingerMetadata<?> metadata) {
         this.metadata = metadata;
     }
 

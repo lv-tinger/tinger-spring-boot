@@ -1,6 +1,6 @@
-package org.tinger.data.jdbc.statement;
+package org.tinger.data.jdbc.statement.template;
 
-public abstract class CustomerStatementCreator implements StatementCreator {
+public abstract class CustomerStatementCreatorTemplate implements StatementCreatorTemplate {
     public static final String UPDATE = "UPDATE";
     public static final String CREATE = "CREATE";
 

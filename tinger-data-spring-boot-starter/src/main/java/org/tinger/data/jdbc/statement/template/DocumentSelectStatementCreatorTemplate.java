@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.statement;
+package org.tinger.data.jdbc.statement.template;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.common.utils.StringUtils;
@@ -9,14 +9,14 @@ import org.tinger.data.jdbc.handler.JdbcHandlerHolder;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DocumentSelectStatementCreator extends AbstractPrimaryKeyStatementCreator {
-    private static final TingerMapBuffer<Class<?>, DocumentSelectStatementCreator> BUFFER = new TingerMapBuffer<>();
+public class DocumentSelectStatementCreatorTemplate extends AbstractPrimaryKeyStatementCreatorTemplate {
+    private static final TingerMapBuffer<Class<?>, DocumentSelectStatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
-    private DocumentSelectStatementCreator(TingerMetadata<?> metadata) {
+    private DocumentSelectStatementCreatorTemplate(TingerMetadata<?> metadata) {
         super(metadata);
     }
 
-    private DocumentSelectStatementCreator generate() {
+    private DocumentSelectStatementCreatorTemplate generate() {
         TingerProperty primaryKey = metadata.getPrimaryKey();
         this.property = primaryKey;
         this.handler = JdbcHandlerHolder.getInstance().get(primaryKey.getType());
@@ -28,7 +28,7 @@ public class DocumentSelectStatementCreator extends AbstractPrimaryKeyStatementC
         return this;
     }
 
-    public static DocumentSelectStatementCreator build(TingerMetadata<?> metadata) {
-        return BUFFER.get(metadata.getType(), () -> new DocumentSelectStatementCreator(metadata).generate());
+    public static DocumentSelectStatementCreatorTemplate build(TingerMetadata<?> metadata) {
+        return BUFFER.get(metadata.getType(), () -> new DocumentSelectStatementCreatorTemplate(metadata).generate());
     }
 }

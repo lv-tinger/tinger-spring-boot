@@ -1,13 +1,11 @@
 package org.tinger.data.jdbc.repository;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 @Data
-@Builder
 public abstract class ShardAlgorithm {
 
     private List<DataSource> dataSources;

@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.resolver;
+package org.tinger.data.jdbc.resolver.template;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.common.utils.ArrayUtils;
@@ -13,8 +13,8 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DefaultJdbcResolver<T> implements TingerJdbcResolver<T> {
-    private static final TingerMapBuffer<Class<?>, TingerJdbcResolver<?>> BUFFER = new TingerMapBuffer<>();
+public class DefaultDocumentJdbcResolverTemplate<T> implements TingerDocumentJdbcResolverTemplate<T> {
+    private static final TingerMapBuffer<Class<?>, TingerDocumentJdbcResolverTemplate<?>> BUFFER = new TingerMapBuffer<>();
 
     private Constructor<T> constructor;
 
@@ -33,7 +33,7 @@ public class DefaultJdbcResolver<T> implements TingerJdbcResolver<T> {
         return instance;
     }
 
-    private TingerJdbcResolver<T> generate(TingerMetadata<T> metadata) {
+    private TingerDocumentJdbcResolverTemplate<T> generate(TingerMetadata<T> metadata) {
         this.constructor = metadata.getConstructor();
         List<Field> fields = new LinkedList<>();
         List<JdbcHandler<?>> handlers = new LinkedList<>();
@@ -47,12 +47,12 @@ public class DefaultJdbcResolver<T> implements TingerJdbcResolver<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> TingerJdbcResolver<T> build(TingerMetadata<T> metadata) {
-        TingerJdbcResolver<?> resolver = BUFFER.get(metadata.getType(), () -> new DefaultJdbcResolver<T>().generate(metadata));
-        return (TingerJdbcResolver<T>) resolver;
+    public static <T> TingerDocumentJdbcResolverTemplate<T> build(TingerMetadata<T> metadata) {
+        TingerDocumentJdbcResolverTemplate<?> resolver = BUFFER.get(metadata.getType(), () -> new DefaultDocumentJdbcResolverTemplate<T>().generate(metadata));
+        return (TingerDocumentJdbcResolverTemplate<T>) resolver;
     }
 
-    public static void register(Class<?> type, TingerJdbcResolver<?> resolver) {
+    public static void register(Class<?> type, TingerDocumentJdbcResolverTemplate<?> resolver) {
         BUFFER.set(type, resolver);
     }
 }

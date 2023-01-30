@@ -1,15 +1,12 @@
 package org.tinger.data.jdbc;
 
-import org.springframework.jdbc.core.StatementCallback;
 import org.tinger.common.utils.StringUtils;
-import org.tinger.data.core.meta.TingerNamespace;
 import org.tinger.data.core.meta.TingerProperty;
 import org.tinger.data.core.repo.AbstractRepository;
 import org.tinger.data.core.tsql.Criteria;
 import org.tinger.data.core.tsql.Update;
 import org.tinger.data.jdbc.handler.JdbcHandler;
 import org.tinger.data.jdbc.handler.JdbcHandlerHolder;
-import org.tinger.data.jdbc.statement.StatementCreator;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -131,7 +128,6 @@ public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K
         ResultSet resultSet = null;
         try {
             connection = source.getConnection();
-            connection.setAutoCommit(false);
             List<JdbcHandler<?>> handlers = context.getHandlers();
             statement = connection.prepareStatement(context.getCommandText());
             List<T> results = new LinkedList<>();

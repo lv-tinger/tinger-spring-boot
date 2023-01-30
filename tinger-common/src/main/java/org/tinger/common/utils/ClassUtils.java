@@ -1,6 +1,7 @@
 package org.tinger.common.utils;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -62,6 +63,16 @@ public class ClassUtils {
         Type superclass = type.getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) superclass;
         return Arrays.stream(parameterizedType.getActualTypeArguments()).map(x -> (Class<?>) x).collect(Collectors.toList());
+    }
+
+    public static Object newInstance(String type){
+        Class<?> clazz = ClassUtils.loadClass(type);
+        Constructor<?> constructor = ConstructorUtils.getDeclaredConstructor(clazz);
+        try {
+            return constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Object newInstance(Class<?> type, Class<?>[] parameterTypes, Object[] parameterValues) {

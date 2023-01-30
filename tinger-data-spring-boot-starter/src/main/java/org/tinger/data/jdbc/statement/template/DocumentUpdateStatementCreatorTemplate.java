@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.statement;
+package org.tinger.data.jdbc.statement.template;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.common.utils.StringUtils;
@@ -9,14 +9,14 @@ import org.tinger.data.jdbc.handler.JdbcHandlerHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentUpdateStatementCreator extends AbstractDocumentStatementCreator {
-    private static final TingerMapBuffer<Class<?>, StatementCreator> BUFFER = new TingerMapBuffer<>();
+public class DocumentUpdateStatementCreatorTemplate extends AbstractDocumentStatementCreatorTemplate {
+    private static final TingerMapBuffer<Class<?>, StatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
-    private DocumentUpdateStatementCreator(TingerMetadata<?> metadata) {
+    private DocumentUpdateStatementCreatorTemplate(TingerMetadata<?> metadata) {
         super(metadata);
     }
 
-    private DocumentUpdateStatementCreator generate() {
+    private DocumentUpdateStatementCreatorTemplate generate() {
         JdbcHandlerHolder jdbcHandlerHolder = JdbcHandlerHolder.getInstance();
         int size = metadata.getProperties().size();
         this.properties = new ArrayList<>(size + 1);
@@ -38,11 +38,11 @@ public class DocumentUpdateStatementCreator extends AbstractDocumentStatementCre
         return this;
     }
 
-    public static StatementCreator build(TingerMetadata<?> metadata) {
-        return BUFFER.get(metadata.getType(), () -> new DocumentUpdateStatementCreator(metadata).generate());
+    public static StatementCreatorTemplate build(TingerMetadata<?> metadata) {
+        return BUFFER.get(metadata.getType(), () -> new DocumentUpdateStatementCreatorTemplate(metadata).generate());
     }
 
-    public static void register(Class<?> type, StatementCreator creator) {
+    public static void register(Class<?> type, StatementCreatorTemplate creator) {
         BUFFER.set(type, creator);
     }
 }

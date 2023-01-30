@@ -7,6 +7,4 @@ import lombok.Setter;
 @Setter
 public class JdbcSingletRepository<T, K> extends TingerJdbcRepository<T, K> {
     private JdbcNamespace namespace;
-
-
 }

@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class JdbcClusterRepository<T, K> extends TingerJdbcRepository<T, K> {
     private ShardAlgorithm algorithm;
+
+
 }
