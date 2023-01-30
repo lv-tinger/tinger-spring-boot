@@ -1,46 +1,46 @@
-package org.tinger.data.jdbc.statement.template;
+package org.tinger.data.jdbc.statement.template.document;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.common.utils.StringUtils;
 import org.tinger.data.core.meta.TingerMetadata;
 import org.tinger.data.core.meta.TingerProperty;
 import org.tinger.data.jdbc.handler.JdbcHandlerHolder;
+import org.tinger.data.jdbc.statement.template.StatementCreatorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentCreateStatementCreatorTemplate extends AbstractDocumentStatementCreatorTemplate {
+public class DocumentUpdateStatementCreatorTemplate extends AbstractDocumentStatementCreatorTemplate {
     private static final TingerMapBuffer<Class<?>, StatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
-    private DocumentCreateStatementCreatorTemplate(TingerMetadata<?> metadata) {
+    private DocumentUpdateStatementCreatorTemplate(TingerMetadata<?> metadata) {
         super(metadata);
     }
 
-    private DocumentCreateStatementCreatorTemplate generate() {
+    private DocumentUpdateStatementCreatorTemplate generate() {
         JdbcHandlerHolder jdbcHandlerHolder = JdbcHandlerHolder.getInstance();
         int size = metadata.getProperties().size();
         this.properties = new ArrayList<>(size + 1);
         this.handlers = new ArrayList<>(size + 1);
 
-        TingerProperty primaryKey = metadata.getPrimaryKey();
-        properties.add(primaryKey);
-        handlers.add(jdbcHandlerHolder.get(primaryKey.getType()));
-
         List<TingerProperty> ps = metadata.getProperties();
         for (TingerProperty p : ps) {
             properties.add(p);
-            handlers.add(jdbcHandlerHolder.get(p.getType()));
+            this.handlers.add(jdbcHandlerHolder.get(p.getType()));
         }
 
-        String columnNames = StringUtils.join(properties.stream().map(x -> "`" + x.getColumn() + "`").toList(), ", ");
-        String parameters = StringUtils.repeat("?", ", ", properties.size());
+        String columnNames = StringUtils.join(metadata.getProperties().stream().map(x -> "`" + x.getColumn() + "` = ?").toList(), ", ");
 
-        this.commandText = "INSERT INTO `[]`.`[]`(" + columnNames + ") VALUES(" + parameters + ")";
+        TingerProperty primaryKey = metadata.getPrimaryKey();
+        properties.add(primaryKey);
+        this.handlers.add(jdbcHandlerHolder.get(primaryKey.getType()));
+        this.commandText = "UPDATE `[]`.`[]` SET " + columnNames + " WHERE `" + primaryKey.getColumn() + "` = ?";
+
         return this;
     }
 
     public static StatementCreatorTemplate build(TingerMetadata<?> metadata) {
-        return BUFFER.get(metadata.getType(), () -> new DocumentCreateStatementCreatorTemplate(metadata).generate());
+        return BUFFER.get(metadata.getType(), () -> new DocumentUpdateStatementCreatorTemplate(metadata).generate());
     }
 
     public static void register(Class<?> type, StatementCreatorTemplate creator) {

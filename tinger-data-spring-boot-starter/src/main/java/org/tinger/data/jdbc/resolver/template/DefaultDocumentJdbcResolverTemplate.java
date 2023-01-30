@@ -22,6 +22,24 @@ public class DefaultDocumentJdbcResolverTemplate<T> implements TingerDocumentJdb
     private JdbcHandler<?>[] jdbcHandlers;
 
     @Override
+    public T resolveOne(ResultSet resultSet) throws Exception {
+        if (resultSet.next()) {
+            return resolve(resultSet);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<T> resolveList(ResultSet resultSet) throws Exception {
+        List<T> list = new LinkedList<>();
+        while (resultSet.next()) {
+            T instance = resolve(resultSet);
+            list.add(instance);
+        }
+        return list;
+    }
+
     public T resolve(ResultSet resultSet) throws Exception {
         T instance = constructor.newInstance();
         for (int i = 0; i < this.properties.length; i++) {
@@ -33,7 +51,7 @@ public class DefaultDocumentJdbcResolverTemplate<T> implements TingerDocumentJdb
         return instance;
     }
 
-    private TingerDocumentJdbcResolverTemplate<T> generate(TingerMetadata<T> metadata) {
+    TingerDocumentJdbcResolverTemplate<T> generate(TingerMetadata<T> metadata) {
         this.constructor = metadata.getConstructor();
         List<Field> fields = new LinkedList<>();
         List<JdbcHandler<?>> handlers = new LinkedList<>();
@@ -46,13 +64,4 @@ public class DefaultDocumentJdbcResolverTemplate<T> implements TingerDocumentJdb
         return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> TingerDocumentJdbcResolverTemplate<T> build(TingerMetadata<T> metadata) {
-        TingerDocumentJdbcResolverTemplate<?> resolver = BUFFER.get(metadata.getType(), () -> new DefaultDocumentJdbcResolverTemplate<T>().generate(metadata));
-        return (TingerDocumentJdbcResolverTemplate<T>) resolver;
-    }
-
-    public static void register(Class<?> type, TingerDocumentJdbcResolverTemplate<?> resolver) {
-        BUFFER.set(type, resolver);
-    }
 }

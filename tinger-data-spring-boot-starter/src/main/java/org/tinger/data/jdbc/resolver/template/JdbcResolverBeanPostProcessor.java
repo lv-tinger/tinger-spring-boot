@@ -9,7 +9,7 @@ public class JdbcResolverBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof CustomerTingerDocumentJdbcResolverTemplate<?> resolver) {
-            DefaultDocumentJdbcResolverTemplate.register(resolver.getType(), resolver);
+            DocumentJdbcResolverTemplateHolder.register(resolver.getType(), resolver);
         }
         return bean;
     }

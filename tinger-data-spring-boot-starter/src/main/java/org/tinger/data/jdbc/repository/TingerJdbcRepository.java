@@ -3,13 +3,7 @@ package org.tinger.data.jdbc.repository;
 import org.tinger.data.core.repo.AbstractRepository;
 import org.tinger.data.jdbc.JdbcUtils;
 import org.tinger.data.jdbc.resolver.TingerResolver;
-import org.tinger.data.jdbc.resolver.template.DefaultDocumentJdbcResolverTemplate;
-import org.tinger.data.jdbc.resolver.template.TingerDocumentJdbcResolverTemplate;
 import org.tinger.data.jdbc.statement.StatementCreator;
-import org.tinger.data.jdbc.statement.template.DocumentCreateStatementCreatorTemplate;
-import org.tinger.data.jdbc.statement.template.DocumentDeleteStatementCreatorTemplate;
-import org.tinger.data.jdbc.statement.template.DocumentSelectStatementCreatorTemplate;
-import org.tinger.data.jdbc.statement.template.DocumentUpdateStatementCreatorTemplate;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,7 +12,7 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 
 public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K> {
-    private int update(DataSource source, StatementCreator creator) {
+    protected int update(DataSource source, StatementCreator creator) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -33,7 +27,7 @@ public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K
         }
     }
 
-    private int batch(DataSource source, StatementCreator creator) {
+    protected int batch(DataSource source, StatementCreator creator) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -56,7 +50,7 @@ public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K
         }
     }
 
-    private <K> K query(DataSource source, StatementCreator creator, TingerResolver<K> resolver) {
+    protected <TK> TK query(DataSource source, StatementCreator creator, TingerResolver<TK> resolver) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -72,36 +66,5 @@ public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K
             JdbcUtils.close(statement);
             JdbcUtils.close(connection);
         }
-    }
-
-    protected int create(JdbcNamespace namespace, T document) {
-        StatementCreator creator = connection -> DocumentCreateStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), document);
-        return update(namespace.getSource(), creator);
-    }
-
-    protected int update(JdbcNamespace namespace, T document) {
-        StatementCreator creator = connection -> DocumentUpdateStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), document);
-        return update(namespace.getSource(), creator);
-    }
-
-    protected int delete(JdbcNamespace namespace, K id) {
-        StatementCreator creator = connection -> DocumentDeleteStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), id);
-        return update(namespace.getSource(), creator);
-    }
-
-    protected T select(JdbcNamespace namespace, K id) {
-        StatementCreator creator = connection -> DocumentSelectStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), id);
-        TingerResolver<T> resolver = new TingerResolver<>() {
-            @Override
-            public <T> T resolve(ResultSet set) throws Exception {
-                TingerDocumentJdbcResolverTemplate<T> template = (TingerDocumentJdbcResolverTemplate<T>) DefaultDocumentJdbcResolverTemplate.build(metadata);
-                if (set.next()) {
-                    return template.resolve(set);
-                } else {
-                    return null;
-                }
-            }
-        };
-        return query(namespace.getSource(), creator, resolver);
     }
 }

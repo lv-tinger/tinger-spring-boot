@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.statement.template;
+package org.tinger.data.jdbc.statement.template.document;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.data.core.meta.TingerMetadata;

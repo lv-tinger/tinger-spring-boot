@@ -4,6 +4,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 import org.tinger.common.utils.StringUtils;
+import org.tinger.data.jdbc.statement.template.document.DocumentCreateStatementCreatorTemplate;
+import org.tinger.data.jdbc.statement.template.document.DocumentUpdateStatementCreatorTemplate;
 
 @Component
 public class JdbcStatementCreatorBeanPostProcessor implements BeanPostProcessor {
