@@ -3,11 +3,9 @@ package org.tinger.data.jdbc.repository;
 import lombok.Getter;
 import lombok.Setter;
 import org.tinger.data.jdbc.resolver.TingerResolver;
+import org.tinger.data.jdbc.statement.StatementBatchCreator;
 import org.tinger.data.jdbc.statement.StatementCreator;
-import org.tinger.data.jdbc.statement.template.document.DocumentCreateStatementCreatorTemplate;
-import org.tinger.data.jdbc.statement.template.document.DocumentDeleteStatementCreatorTemplate;
-import org.tinger.data.jdbc.statement.template.document.DocumentSelectStatementCreatorTemplate;
-import org.tinger.data.jdbc.statement.template.document.DocumentUpdateStatementCreatorTemplate;
+import org.tinger.data.jdbc.statement.template.document.*;
 
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class JdbcSingletRepository<T extends Object, K> extends TingerJdbcReposi
 
     public int create(List<T> documents) {
         StatementCreator creator = connection -> DocumentCreateStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), documents);
-        return batch(namespace.getSource(), creator);
+        return updateBatch(namespace.getSource(), creator);
     }
 
     public int update(T document) {
@@ -35,7 +33,7 @@ public class JdbcSingletRepository<T extends Object, K> extends TingerJdbcReposi
 
     public int update(List<T> documents) {
         StatementCreator creator = connection -> DocumentUpdateStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), documents);
-        return batch(namespace.getSource(), creator);
+        return updateBatch(namespace.getSource(), creator);
     }
 
     public int delete(K id) {
@@ -45,7 +43,7 @@ public class JdbcSingletRepository<T extends Object, K> extends TingerJdbcReposi
 
     public int delete(List<K> ids) {
         StatementCreator creator = connection -> DocumentDeleteStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), ids);
-        return batch(namespace.getSource(), creator);
+        return updateBatch(namespace.getSource(), creator);
     }
 
     public T select(K id) {
@@ -55,8 +53,8 @@ public class JdbcSingletRepository<T extends Object, K> extends TingerJdbcReposi
     }
 
     public List<T> select(List<K> ids) {
-        StatementCreator creator = connection -> DocumentSelectStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), ids);
+        StatementBatchCreator creator = connection -> DocumentSelectBatchStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), ids);
         TingerResolver<List<T>> resolver = set -> build(metadata).resolveList(set);
-        return query(namespace.getSource(), creator, resolver);
+        return queryBatch(namespace.getSource(), creator, resolver);
     }
 }
