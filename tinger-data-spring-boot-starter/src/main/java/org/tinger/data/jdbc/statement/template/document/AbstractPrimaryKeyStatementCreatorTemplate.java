@@ -1,6 +1,5 @@
 package org.tinger.data.jdbc.statement.template.document;
 
-import org.tinger.data.core.meta.TingerMetadata;
 import org.tinger.data.core.meta.TingerProperty;
 import org.tinger.data.jdbc.handler.JdbcHandler;
 
@@ -11,10 +10,6 @@ public abstract class AbstractPrimaryKeyStatementCreatorTemplate extends Abstrac
 
     protected JdbcHandler<?> handler;
     protected TingerProperty property;
-
-    protected AbstractPrimaryKeyStatementCreatorTemplate(TingerMetadata<?> metadata) {
-        super(metadata);
-    }
 
     @Override
     protected void one(PreparedStatement statement, Object parameter) throws Exception {

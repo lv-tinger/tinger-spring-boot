@@ -12,4 +12,11 @@ public class Queryable {
     private Criteria criteria;
     private Ordered ordered;
     private Limited limited;
+
+    public Queryable() {
+    }
+
+    public Queryable(Criteria criteria) {
+        this.criteria = criteria;
+    }
 }

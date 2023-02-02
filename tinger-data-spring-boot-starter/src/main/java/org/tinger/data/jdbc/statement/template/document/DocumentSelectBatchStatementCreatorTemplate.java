@@ -28,13 +28,7 @@ public class DocumentSelectBatchStatementCreatorTemplate {
     protected JdbcHandler<?> handler;
     protected TingerProperty property;
 
-    protected final TingerMetadata<?> metadata;
-
-    public DocumentSelectBatchStatementCreatorTemplate(TingerMetadata<?> metadata) {
-        this.metadata = metadata;
-    }
-
-    private DocumentSelectBatchStatementCreatorTemplate generate() {
+    private DocumentSelectBatchStatementCreatorTemplate generate(TingerMetadata<?> metadata) {
         this.property = metadata.getPrimaryKey();
         this.handler = JdbcHandlerHolder.getInstance().get(this.property.getType());
         List<String> names = new LinkedList<>();
@@ -70,6 +64,6 @@ public class DocumentSelectBatchStatementCreatorTemplate {
     private static final TingerMapBuffer<Class<?>, DocumentSelectBatchStatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
     public static DocumentSelectBatchStatementCreatorTemplate build(TingerMetadata<?> metadata) {
-        return BUFFER.get(metadata.getType(), () -> new DocumentSelectBatchStatementCreatorTemplate(metadata).generate());
+        return BUFFER.get(metadata.getType(), () -> new DocumentSelectBatchStatementCreatorTemplate().generate(metadata));
     }
 }

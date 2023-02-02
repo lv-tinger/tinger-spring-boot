@@ -6,17 +6,15 @@ import org.tinger.data.core.meta.TingerMetadata;
 import org.tinger.data.core.meta.TingerProperty;
 import org.tinger.data.jdbc.handler.JdbcHandlerHolder;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DocumentSelectStatementCreatorTemplate extends AbstractPrimaryKeyStatementCreatorTemplate {
     private static final TingerMapBuffer<Class<?>, DocumentSelectStatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
-    private DocumentSelectStatementCreatorTemplate(TingerMetadata<?> metadata) {
-        super(metadata);
-    }
-
-    private DocumentSelectStatementCreatorTemplate generate() {
+    private DocumentSelectStatementCreatorTemplate generate(TingerMetadata<?> metadata) {
         TingerProperty primaryKey = metadata.getPrimaryKey();
         this.property = primaryKey;
         this.handler = JdbcHandlerHolder.getInstance().get(primaryKey.getType());
@@ -28,7 +26,15 @@ public class DocumentSelectStatementCreatorTemplate extends AbstractPrimaryKeySt
         return this;
     }
 
+    @Override
+    public PreparedStatement statement(Connection connection, String database, String datatable, Object parameter) throws Exception {
+        String command = StringUtils.format(this.commandText, database, datatable);
+        PreparedStatement statement = connection.prepareStatement(command);
+        one(statement, parameter);
+        return statement;
+    }
+
     public static DocumentSelectStatementCreatorTemplate build(TingerMetadata<?> metadata) {
-        return BUFFER.get(metadata.getType(), () -> new DocumentSelectStatementCreatorTemplate(metadata).generate());
+        return BUFFER.get(metadata.getType(), () -> new DocumentSelectStatementCreatorTemplate().generate(metadata));
     }
 }

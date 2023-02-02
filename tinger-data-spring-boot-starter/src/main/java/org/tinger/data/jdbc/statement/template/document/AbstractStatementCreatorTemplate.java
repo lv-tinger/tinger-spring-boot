@@ -11,12 +11,6 @@ import java.util.List;
 public abstract class AbstractStatementCreatorTemplate implements StatementCreatorTemplate {
     protected String commandText;
 
-    protected final TingerMetadata<?> metadata;
-
-    protected AbstractStatementCreatorTemplate(TingerMetadata<?> metadata) {
-        this.metadata = metadata;
-    }
-
     @Override
     public PreparedStatement statement(Connection connection, String database, String datatable, Object parameter) throws Exception {
         String command = StringUtils.format(this.commandText, database, datatable);

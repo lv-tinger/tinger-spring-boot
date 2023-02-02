@@ -8,7 +8,6 @@ import java.util.*;
  * Created by tinger on 2022-10-15
  */
 public class Criteria {
-
     @Getter
     private Operation op;
 
@@ -21,7 +20,7 @@ public class Criteria {
     private Criteria() {
     }
 
-    public static Criteria where(String column, Operation op, Object value) {
+    public static Criteria where(String column, Operation op, int value) {
         Criteria criteria = new Criteria();
         criteria.operationMapper = new LinkedHashMap<>();
         OperateValue operateValue = new OperateValue();

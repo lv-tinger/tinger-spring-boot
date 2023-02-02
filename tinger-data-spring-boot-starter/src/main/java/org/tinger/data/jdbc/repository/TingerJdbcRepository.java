@@ -95,5 +95,4 @@ public abstract class TingerJdbcRepository<T, K> extends AbstractRepository<T, K
             JdbcUtils.close(connection);
         }
     }
-
 }

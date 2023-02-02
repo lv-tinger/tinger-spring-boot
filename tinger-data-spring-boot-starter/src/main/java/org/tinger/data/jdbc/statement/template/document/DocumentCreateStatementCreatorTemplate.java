@@ -13,11 +13,7 @@ import java.util.List;
 public class DocumentCreateStatementCreatorTemplate extends AbstractDocumentStatementCreatorTemplate {
     private static final TingerMapBuffer<Class<?>, StatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
-    private DocumentCreateStatementCreatorTemplate(TingerMetadata<?> metadata) {
-        super(metadata);
-    }
-
-    private DocumentCreateStatementCreatorTemplate generate() {
+    private DocumentCreateStatementCreatorTemplate generate(TingerMetadata<?> metadata) {
         JdbcHandlerHolder jdbcHandlerHolder = JdbcHandlerHolder.getInstance();
         int size = metadata.getProperties().size();
         this.properties = new ArrayList<>(size + 1);
@@ -41,7 +37,7 @@ public class DocumentCreateStatementCreatorTemplate extends AbstractDocumentStat
     }
 
     public static StatementCreatorTemplate build(TingerMetadata<?> metadata) {
-        return BUFFER.get(metadata.getType(), () -> new DocumentCreateStatementCreatorTemplate(metadata).generate());
+        return BUFFER.get(metadata.getType(), () -> new DocumentCreateStatementCreatorTemplate().generate(metadata));
     }
 
     public static void register(Class<?> type, StatementCreatorTemplate creator) {
