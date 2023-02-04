@@ -2,6 +2,7 @@ package org.tinger.data.jdbc.statement.template.queryable;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.common.utils.StringUtils;
+import org.tinger.data.core.tsql.Criteria;
 import org.tinger.data.jdbc.handler.JdbcHandler;
 import org.tinger.data.jdbc.statement.template.StatementCreatorTemplate;
 
@@ -19,6 +20,7 @@ public class SelectStatementCreatorTemplate implements StatementCreatorTemplate 
     private List<Integer> parameterSequences;
 
     private SelectStatementCreatorTemplate generate(Queryable queryable) {
+        Criteria criteria = queryable.where();
 
         return this;
     }

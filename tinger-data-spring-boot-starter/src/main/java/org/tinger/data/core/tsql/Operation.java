@@ -9,7 +9,8 @@ public enum Operation {
     EQ("="), NEQ("!="),
     NULL(""), NON(""),
     IN(""), NIN(""),
-    AND("AND"), OR("OR");
+    AND("AND"), OR("OR"),
+    ASC("ASC"), DESC("DESC");
     public final String code;
 
     Operation(String code) {

@@ -7,5 +7,6 @@ import lombok.Data;
 @Builder
 public class Limited {
     private int skip;
-    private int limit;
+    private int take;
+    private boolean fix;
 }

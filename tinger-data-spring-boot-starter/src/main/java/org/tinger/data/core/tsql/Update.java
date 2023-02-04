@@ -1,5 +1,7 @@
 package org.tinger.data.core.tsql;
 
+import lombok.Getter;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 /**
  * Created by tinger on 2023-10-16
  */
+@Getter
 public class Update {
     private Map<String, Object> valueMapper = new LinkedHashMap<>();
 
