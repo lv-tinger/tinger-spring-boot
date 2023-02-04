@@ -2,12 +2,14 @@ package org.tinger.data.jdbc.statement.template.queryable;
 
 import org.tinger.common.buffer.TingerMapBuffer;
 import org.tinger.common.utils.StringUtils;
-import org.tinger.data.core.tsql.Criteria;
+import org.tinger.data.core.meta.TingerMetadata;
+import org.tinger.data.core.tsql.Queryable;
 import org.tinger.data.jdbc.handler.JdbcHandler;
 import org.tinger.data.jdbc.statement.template.StatementCreatorTemplate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,9 +22,31 @@ public class SelectStatementCreatorTemplate implements StatementCreatorTemplate 
     private List<Integer> parameterSequences;
 
     private SelectStatementCreatorTemplate generate(Queryable queryable) {
-        Criteria criteria = queryable.where();
+        MysqlTransfer transfer = MysqlTransfer.builder().metadata(queryable.metadata()).criteria(queryable.where()).ordered(queryable.order()).limited(queryable.limit()).build().resolve();
+        commandText = selectBody(queryable.metadata());
+        if (StringUtils.isNoneEmpty(transfer.getWhereExpression())) {
+            commandText += " WHERE " + transfer.getWhereExpression();
+        }
 
+        if (StringUtils.isNoneEmpty(transfer.getOrderExpression())) {
+            commandText += " ORDER BY " + transfer.getOrderExpression();
+        }
+
+        if (StringUtils.isNoneEmpty(transfer.getLimitExpression())) {
+            commandText += " LIMIT " + transfer.getLimitExpression();
+        }
+
+        this.parameterHandlers = transfer.getJdbcHandlers();
+        this.parameterSequences = transfer.getParameters();
+        this.parameterLength = this.parameterHandlers.size();
         return this;
+    }
+
+    private String selectBody(TingerMetadata<?> metadata) {
+        List<String> names = new LinkedList<>();
+        metadata.getProperties().forEach(x -> names.add("`" + x.getColumn() + "`"));
+        String columnNames = StringUtils.join(names, ", ");
+        return "SELECT " + columnNames + " FROM `[]`.`[]`";
     }
 
     @Override
@@ -52,8 +76,8 @@ public class SelectStatementCreatorTemplate implements StatementCreatorTemplate 
 
     private static final TingerMapBuffer<String, SelectStatementCreatorTemplate> BUFFER = new TingerMapBuffer<>();
 
-    public static SelectStatementCreatorTemplate build(String name, Queryable queryable) {
-        String named = queryable.metadata().getType().getSimpleName() + "_" + name;
+    public static SelectStatementCreatorTemplate build(Queryable queryable) {
+        String named = queryable.metadata().getType().getSimpleName() + "_" + queryable.name();
         return BUFFER.get(named, () -> new SelectStatementCreatorTemplate().generate(queryable));
     }
 }

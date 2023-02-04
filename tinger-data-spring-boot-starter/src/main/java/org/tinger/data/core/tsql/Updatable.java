@@ -1,14 +1,18 @@
 package org.tinger.data.core.tsql;
 
-import lombok.Builder;
-import lombok.Data;
+import org.tinger.data.core.meta.TingerMetadata;
+import org.tinger.data.core.tsql.Criteria;
+import org.tinger.data.core.tsql.Update;
 
 /**
- * Created by tinger on 2023-02-03
+ * Created by tinger on 2023-02-02
  */
-@Data
-@Builder
-public class Updatable {
-    private Update update;
-    private Criteria criteria;
+public interface Updatable {
+    String name();
+
+    TingerMetadata<?> update();
+
+    Update set();
+
+    Criteria where();
 }

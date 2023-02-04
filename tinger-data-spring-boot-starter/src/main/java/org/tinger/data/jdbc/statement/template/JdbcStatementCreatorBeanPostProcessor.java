@@ -20,7 +20,6 @@ public class JdbcStatementCreatorBeanPostProcessor implements BeanPostProcessor 
                 throw new RuntimeException();
             }
         }
-
         return bean;
     }
 }

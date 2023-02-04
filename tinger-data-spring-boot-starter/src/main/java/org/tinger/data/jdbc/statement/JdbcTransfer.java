@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc;
+package org.tinger.data.jdbc.statement;
 
 import lombok.Builder;
 import lombok.Getter;

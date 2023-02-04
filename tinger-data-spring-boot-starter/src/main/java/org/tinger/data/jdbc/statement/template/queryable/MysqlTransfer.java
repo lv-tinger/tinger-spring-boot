@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Getter
 public class MysqlTransfer {
     private final List<JdbcHandler<?>> jdbcHandlers = new LinkedList<>();
-    private final List<Object> parameters = new LinkedList<>();
+    private final List<Integer> parameters = new LinkedList<>();
     private Criteria criteria;
     private Ordered ordered;
     private Update update;
@@ -71,7 +71,7 @@ public class MysqlTransfer {
         }
     }
 
-    private String resolve(String name, Operation op, Object value) {
+    private String resolve(String name, Operation op, Integer value) {
         TingerProperty property = this.metadata.getPropertyByName(name);
         switch (op) {
             case EQ:
@@ -99,7 +99,7 @@ public class MysqlTransfer {
         }
         String[] updateColumns = new String[this.update.getValueMapper().size()];
         int i = 0;
-        for (Map.Entry<String, Object> item : this.update.getValueMapper().entrySet()) {
+        for (Map.Entry<String, Integer> item : this.update.getValueMapper().entrySet()) {
             TingerProperty property = this.metadata.getPropertyByName(item.getKey());
             updateColumns[i] = column(property.getColumn()) + " = ?";
             JdbcHandler<?> handler = JdbcHandlerHolder.getInstance().get(property.getType());
@@ -134,9 +134,9 @@ public class MysqlTransfer {
         }
 
         if (limited.isFix()) {
-            this.limitExpression = "LIMIT " + this.limited.getSkip() + ", " + this.limited.getTake();
+            this.limitExpression = this.limited.getSkip() + ", " + this.limited.getTake();
         } else {
-            this.limitExpression = "LIMIT ?, ?";
+            this.limitExpression = "?, ?";
             JdbcHandler<Integer> handler = JdbcHandlerHolder.getInstance().get(Integer.class);
             this.jdbcHandlers.add(handler);
             this.jdbcHandlers.add(handler);

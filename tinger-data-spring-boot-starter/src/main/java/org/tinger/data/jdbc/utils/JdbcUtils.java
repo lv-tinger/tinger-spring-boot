@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc;
+package org.tinger.data.jdbc.utils;
 
 import java.sql.*;
 

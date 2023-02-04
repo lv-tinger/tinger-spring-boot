@@ -2,11 +2,14 @@ package org.tinger.data.jdbc.repository;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.tinger.data.core.tsql.Queryable;
 import org.tinger.data.jdbc.resolver.TingerResolver;
 import org.tinger.data.jdbc.statement.StatementBatchCreator;
 import org.tinger.data.jdbc.statement.StatementCreator;
 import org.tinger.data.jdbc.statement.template.document.*;
+import org.tinger.data.jdbc.statement.template.queryable.SelectStatementCreatorTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.tinger.data.jdbc.resolver.template.DocumentJdbcResolverTemplateHolder.build;
@@ -56,5 +59,17 @@ public class JdbcSingletRepository<T extends Object, K> extends TingerJdbcReposi
         StatementBatchCreator creator = connection -> DocumentSelectBatchStatementCreatorTemplate.build(metadata).statement(connection, namespace.getDatabase(), namespace.getDatatable(), ids);
         TingerResolver<List<T>> resolver = set -> build(metadata).resolveList(set);
         return queryBatch(namespace.getSource(), creator, resolver);
+    }
+
+    public List<T> select(Queryable queryable, List<Object> parameters) {
+        StatementCreator creator = connection -> SelectStatementCreatorTemplate.build(queryable).statement(connection, namespace.getDatabase(), namespace.getDatatable(), parameters);
+        TingerResolver<List<T>> resolver = set -> build(metadata).resolveList(set);
+        return query(namespace.getSource(), creator, resolver);
+    }
+
+    public List<T> select(Queryable queryable, Object... parameters) {
+        StatementCreator creator = connection -> SelectStatementCreatorTemplate.build(queryable).statement(connection, namespace.getDatabase(), namespace.getDatatable(), parameters);
+        TingerResolver<List<T>> resolver = set -> build(metadata).resolveList(set);
+        return query(namespace.getSource(), creator, resolver);
     }
 }

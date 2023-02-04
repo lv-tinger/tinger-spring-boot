@@ -11,13 +11,13 @@ import java.util.Map;
  */
 @Getter
 public class Update {
-    private Map<String, Object> valueMapper = new LinkedHashMap<>();
+    private Map<String, Integer> valueMapper = new LinkedHashMap<>();
 
-    public static Update build(String name, Object value) {
+    public static Update build(String name, Integer value) {
         return new Update().set(name, value);
     }
 
-    public Update set(String name, Object value) {
+    public Update set(String name, Integer value) {
         this.valueMapper.put(name, value);
         return this;
     }

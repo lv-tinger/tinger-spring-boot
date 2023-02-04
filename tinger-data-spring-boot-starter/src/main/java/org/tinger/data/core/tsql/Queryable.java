@@ -1,22 +1,28 @@
 package org.tinger.data.core.tsql;
 
-import lombok.Builder;
-import lombok.Data;
+import org.tinger.data.core.meta.TingerMetadata;
+import org.tinger.data.core.tsql.Criteria;
+import org.tinger.data.core.tsql.Limited;
+import org.tinger.data.core.tsql.Ordered;
 
 /**
- * Created by tinger on 2022-10-16
+ * Created by tinger on 2023-02-02
  */
-@Builder
-@Data
-public class Queryable {
-    private Criteria criteria;
-    private Ordered ordered;
-    private Limited limited;
+public interface Queryable {
 
-    public Queryable() {
+    String name();
+
+    TingerMetadata<?> metadata();
+
+    default Criteria where() {
+        return null;
     }
 
-    public Queryable(Criteria criteria) {
-        this.criteria = criteria;
+    default Ordered order() {
+        return null;
+    }
+
+    default Limited limit() {
+        return null;
     }
 }
