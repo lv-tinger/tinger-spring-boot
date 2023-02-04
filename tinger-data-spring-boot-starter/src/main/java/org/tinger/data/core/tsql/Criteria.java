@@ -43,7 +43,7 @@ public class Criteria {
         return c;
     }
 
-    public Criteria and(String column, Operation op, Object value) {
+    public Criteria and(String column, Operation op, Integer value) {
         if (this.operationMapper == null) {
             throw new RuntimeException();
         }
@@ -58,7 +58,7 @@ public class Criteria {
         return this;
     }
 
-    public Criteria or(String column, Operation op, Object value) {
+    public Criteria or(String column, Operation op, Integer value) {
         if (this.operationMapper == null) {
             throw new RuntimeException();
         }
@@ -73,7 +73,7 @@ public class Criteria {
         return this;
     }
 
-    private void attach(String column, Operation op, Object value) {
+    private void attach(String column, Operation op, Integer value) {
         OperateValue operateValue = this.operationMapper.get(column);
         if (operateValue == null) {
             operateValue = new OperateValue();
