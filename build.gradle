@@ -15,6 +15,12 @@ repositories {
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
+allprojects {
+    test {
+        useJUnitPlatform()
+    }
+}
+
 subprojects {
     group = 'tinger'
     version = '0.0.1-SNAPSHOT'
@@ -44,6 +50,8 @@ subprojects {
         compileOnly 'org.springframework.boot:spring-boot-autoconfigure-processor'
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        testImplementation 'junit:junit'
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
@@ -78,6 +86,7 @@ subprojects {
         }
     }
 }
+
 
 def getRepositoryUrl() {
     return isSnapshot() ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL

@@ -36,6 +36,7 @@ public class TingerMetadataBuilder {
         Field[] fields = FieldUtils.getMemberField(type);
         List<TingerProperty> properties = Arrays.stream(fields).map(this::property).filter(Objects::nonNull).collect(Collectors.toList());
         TingerProperty primaryKey = properties.stream().filter(x -> x.getField().getAnnotation(TingerDataPrimaryKey.class) != null).findFirst().orElse(null);
+        properties.remove(primaryKey);
         Constructor<T> constructor = ConstructorUtils.getDeclaredConstructor(type);
         return TingerMetadata.<T>builder().type(type).constructor(constructor).primaryKey(primaryKey).properties(properties).build();
     }
