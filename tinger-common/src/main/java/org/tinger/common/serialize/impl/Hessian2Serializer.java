@@ -2,13 +2,13 @@ package org.tinger.common.serialize.impl;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
-import org.tinger.common.serialize.Serializer;
+import org.tinger.common.serialize.ByteSerializer;
 import org.tinger.common.utils.IoUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-public class Hessian2Serializer implements Serializer {
+public class Hessian2Serializer implements ByteSerializer {
 
     @Override
     public <T> byte[] serialize(T object) {

@@ -12,6 +12,6 @@ public class JdbcTest {
     @Test
     public void test() {
         UserServer userServer = context.getBean(UserServer.class);
-        userServer.add(1);
+        userServer.add(2);
     }
 }

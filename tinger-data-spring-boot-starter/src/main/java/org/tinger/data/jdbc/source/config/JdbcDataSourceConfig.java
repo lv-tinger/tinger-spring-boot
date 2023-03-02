@@ -1,12 +1,9 @@
-package org.tinger.data.jdbc.config;
+package org.tinger.data.jdbc.source.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @Builder
 @Data
@@ -17,5 +14,6 @@ public class JdbcDataSourceConfig {
     private String jdbcUrl;
     private String username;
     private String password;
-    private List<String> alias;
+    private Integer position = 3;
+    private Integer weight;
 }
