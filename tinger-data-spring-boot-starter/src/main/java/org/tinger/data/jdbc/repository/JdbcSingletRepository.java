@@ -11,6 +11,7 @@ import org.tinger.data.jdbc.statement.StatementCreator;
 import org.tinger.data.jdbc.statement.template.document.*;
 import org.tinger.data.jdbc.statement.template.queryable.SelectStatementCreatorTemplate;
 import org.tinger.data.jdbc.statement.template.queryable.UpdateStatementCreatorTemplate;
+import org.tinger.data.jdbc.support.Preference;
 
 import javax.sql.DataSource;
 import java.io.Serializable;

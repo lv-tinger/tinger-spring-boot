@@ -4,7 +4,7 @@ import org.tinger.data.core.repo.AbstractRepository;
 import org.tinger.data.jdbc.resolver.TingerResolver;
 import org.tinger.data.jdbc.statement.StatementBatchCreator;
 import org.tinger.data.jdbc.statement.StatementCreator;
-import org.tinger.data.jdbc.utils.JdbcUtils;
+import org.tinger.data.jdbc.support.JdbcUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

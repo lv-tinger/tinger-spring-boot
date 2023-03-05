@@ -1,4 +1,4 @@
-package org.tinger.data.mongo.repository;
+package org.tinger.data.mongo.namespace;
 
 import com.mongodb.client.MongoClient;
 

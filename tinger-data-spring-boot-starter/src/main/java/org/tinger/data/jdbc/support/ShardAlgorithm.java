@@ -1,4 +1,4 @@
-package org.tinger.data.jdbc.repository;
+package org.tinger.data.jdbc.support;
 
 import org.tinger.data.jdbc.namespace.JdbcNamespace;
 

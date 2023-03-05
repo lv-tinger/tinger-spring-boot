@@ -14,7 +14,6 @@ import org.tinger.data.jdbc.namespace.JdbcNamespace;
 import org.tinger.data.jdbc.namespace.JdbcNamespaceBuilder;
 import org.tinger.data.jdbc.repository.JdbcClusterRepository;
 import org.tinger.data.jdbc.repository.JdbcSingletRepository;
-import org.tinger.data.jdbc.repository.ShardAlgorithm;
 import org.tinger.data.jdbc.source.TingerJdbcDataSourceManager;
 import org.tinger.data.jdbc.source.wrapper.TingerJdbcDataSourceWrapper;
 
