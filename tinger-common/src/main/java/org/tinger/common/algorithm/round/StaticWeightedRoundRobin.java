@@ -1,6 +1,7 @@
 package org.tinger.common.algorithm.round;
 
-import java.util.ArrayList;
+import org.tinger.common.utils.CollectionUtils;
+
 import java.util.List;
 
 public class StaticWeightedRoundRobin<T> extends CommonRoundRobin<T> {
@@ -8,8 +9,17 @@ public class StaticWeightedRoundRobin<T> extends CommonRoundRobin<T> {
         super(round(list, weight));
     }
 
-    private static <T> List<T> round(List<T> list, List<Integer> weight) {
+    private static <T> List<T> round(List<T> nodes, List<Integer> weights) {
+        if (CollectionUtils.isEmpty(nodes) || CollectionUtils.isEmpty(weights) || nodes.size() != weights.size()) {
+            throw new RuntimeException();
+        }
 
-        return new ArrayList<>();
+        int length = nodes.size();
+        WeightedNodeWrapper<T> weightedNodeWrapper = new WeightedNodeWrapper<>();
+        for (int i = 0; i < length; i++) {
+            weightedNodeWrapper.append(nodes.get(i), weights.get(i));
+        }
+
+        return weightedNodeWrapper.spread();
     }
 }

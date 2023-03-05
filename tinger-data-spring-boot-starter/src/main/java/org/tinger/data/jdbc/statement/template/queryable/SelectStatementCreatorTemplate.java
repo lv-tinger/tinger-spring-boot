@@ -22,7 +22,12 @@ public class SelectStatementCreatorTemplate implements StatementCreatorTemplate 
     private List<Integer> parameterSequences;
 
     private SelectStatementCreatorTemplate generate(Queryable queryable) {
-        MysqlTransfer transfer = MysqlTransfer.builder().metadata(queryable.metadata()).criteria(queryable.where()).ordered(queryable.order()).limited(queryable.limit()).build().resolve();
+        MysqlTransfer transfer = MysqlTransfer.builder().metadata(queryable.metadata())
+                .criteria(queryable.where())
+                .ordered(queryable.order())
+                .limited(queryable.limit())
+                .build()
+                .resolve();
         commandText = selectBody(queryable.metadata());
         if (StringUtils.isNoneEmpty(transfer.getWhereExpression())) {
             commandText += " WHERE " + transfer.getWhereExpression();
@@ -44,6 +49,7 @@ public class SelectStatementCreatorTemplate implements StatementCreatorTemplate 
 
     private String selectBody(TingerMetadata<?> metadata) {
         List<String> names = new LinkedList<>();
+        names.add("`" + metadata.getPrimaryKey().getColumn() + "`");
         metadata.getProperties().forEach(x -> names.add("`" + x.getColumn() + "`"));
         String columnNames = StringUtils.join(names, ", ");
         return "SELECT " + columnNames + " FROM `[]`.`[]`";

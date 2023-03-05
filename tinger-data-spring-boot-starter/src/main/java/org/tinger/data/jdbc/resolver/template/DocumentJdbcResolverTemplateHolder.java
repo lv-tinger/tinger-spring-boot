@@ -9,7 +9,6 @@ import org.tinger.data.core.meta.TingerMetadata;
 public class DocumentJdbcResolverTemplateHolder {
     private static final TingerMapBuffer<Class<?>, TingerDocumentJdbcResolverTemplate<?>> BUFFER = new TingerMapBuffer<>();
 
-
     @SuppressWarnings("unchecked")
     public static <T> TingerDocumentJdbcResolverTemplate<T> build(TingerMetadata<T> metadata) {
         TingerDocumentJdbcResolverTemplate<?> resolver = BUFFER.get(metadata.getType(), () -> new DefaultDocumentJdbcResolverTemplate<T>().generate(metadata));

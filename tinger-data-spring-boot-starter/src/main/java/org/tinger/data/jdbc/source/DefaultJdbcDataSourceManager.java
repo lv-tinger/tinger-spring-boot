@@ -7,8 +7,10 @@ import org.tinger.common.utils.ServiceLoaderUtils;
 import org.tinger.common.utils.StringUtils;
 import org.tinger.data.jdbc.source.builder.JdbcDataSourceBuilder;
 import org.tinger.data.jdbc.source.config.*;
+import org.tinger.data.jdbc.source.wrapper.DefaultJdbcDataSourceWrapper;
 import org.tinger.data.jdbc.source.wrapper.TingerJdbcDataSourceWrapper;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,10 +25,7 @@ public class DefaultJdbcDataSourceManager implements TingerJdbcDataSourceManager
     @Override
     public List<TingerJdbcDataSourceWrapper> singlet(String name) {
         return singleWrappers.get(name, () -> {
-            SingletDataSourceConfig config = jdbcConfig.getSinglets().stream().filter(x -> StringUtils.equals(x.getName(), name)).findFirst().orElse(null);
-            if (config == null) {
-                throw new RuntimeException();
-            }
+            SingletDataSourceConfig config = jdbcConfig.getSinglets().stream().filter(x -> StringUtils.equals(x.getName(), name)).findFirst().orElseThrow();
             return build(config.getConfigs());
         });
     }
@@ -34,10 +33,7 @@ public class DefaultJdbcDataSourceManager implements TingerJdbcDataSourceManager
     @Override
     public List<List<TingerJdbcDataSourceWrapper>> cluster(String name) {
         return clusterWrappers.get(name, () -> {
-            ClusterDataSourceConfig config = jdbcConfig.getClusters().stream().filter(x -> StringUtils.equals(x.getName(), name)).findFirst().orElse(null);
-            if (config == null) {
-                throw new RuntimeException();
-            }
+            ClusterDataSourceConfig config = jdbcConfig.getClusters().stream().filter(x -> StringUtils.equals(x.getName(), name)).findFirst().orElseThrow();
             return config.getConfigs().stream().map(this::build).collect(Collectors.toList());
         });
     }
@@ -46,7 +42,14 @@ public class DefaultJdbcDataSourceManager implements TingerJdbcDataSourceManager
         if (CollectionUtils.isEmpty(configs)) {
             throw new RuntimeException();
         }
-        return Collections.emptyList();
+
+        return configs.stream()
+                .map(x -> DefaultJdbcDataSourceWrapper.builder()
+                        .source(sourceBuilder.build(x, jdbcConfig.getCommonConfig()))
+                        .weight(x.getWeight())
+                        .position(x.getPosition())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override

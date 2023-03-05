@@ -14,6 +14,6 @@ public class JdbcDataSourceConfig {
     private String jdbcUrl;
     private String username;
     private String password;
-    private Integer position = 3;
+    private Integer position;
     private Integer weight;
 }

@@ -8,7 +8,7 @@ import org.tinger.data.test.repo.UserRepository;
 import java.util.Date;
 
 @Component
-public class UserServer {
+public class UserService {
     @Autowired
     private UserRepository userRepository;
 

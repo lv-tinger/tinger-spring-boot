@@ -1,20 +1,28 @@
 package org.tinger.data.jdbc.repository;
 
-import lombok.Data;
+import org.tinger.data.jdbc.namespace.JdbcNamespace;
 
 import javax.sql.DataSource;
 import java.util.List;
 
-@Data
-public abstract class ShardAlgorithm {
 
-    private List<DataSource> dataSources;
-    private String database;
-    private String datatable;
+public abstract class ShardAlgorithm<T> {
+    protected List<JdbcNamespace> jdbcNamespaces;
+    protected String database;
+    protected String datatable;
 
-    public abstract DataSource source(Object object);
+    public abstract DataSource master(T object);
 
-    public abstract String datatable(Object object);
+    public abstract DataSource slaver(T document);
 
-    public abstract String database(Object object);
+    public abstract String datatable(T object);
+
+    public abstract String database(T object);
+
+    public ShardAlgorithm<T> build(List<JdbcNamespace> jdbcNamespaces, String database, String datatable) {
+        this.jdbcNamespaces = jdbcNamespaces;
+        this.datatable = datatable;
+        this.database = database;
+        return this;
+    }
 }

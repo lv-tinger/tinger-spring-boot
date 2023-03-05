@@ -9,7 +9,6 @@ import org.tinger.data.core.value.TingerDriver;
 import org.tinger.data.jdbc.repository.JdbcSingletRepository;
 import org.tinger.data.test.pojo.Member;
 
-@Component
 @TingerRepository(driver = TingerDriver.MYSQL)
 @TingerDataSource("tinger")
 @TingerDatabase("tinger")

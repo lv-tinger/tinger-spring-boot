@@ -10,4 +10,8 @@ public interface TingerJdbcDataSourceWrapper {
     String getName();
 
     DataSource getSource();
+
+    boolean isMaster();
+
+    boolean isSlaver();
 }

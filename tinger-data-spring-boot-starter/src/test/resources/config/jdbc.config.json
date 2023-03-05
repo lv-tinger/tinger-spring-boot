@@ -1,0 +1,38 @@
+{
+  "commonConfig": {},
+  "singlets": [
+    {
+      "name": "tinger",
+      "alias": [
+        "user"
+      ],
+      "configs": [
+        {
+          "driver": "com.mysql.cj.jdbc.Driver",
+          "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/principal?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true",
+          "username": "root",
+          "password": "123456",
+          "position": 1,
+          "weight": 0
+        },
+        {
+          "driver": "com.mysql.cj.jdbc.Driver",
+          "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/principal?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true",
+          "username": "root",
+          "password": "123456",
+          "position": 2,
+          "weight": 1
+        },
+        {
+          "driver": "com.mysql.cj.jdbc.Driver",
+          "jdbcUrl": "jdbc:mysql://127.0.0.1:3306/principal?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true",
+          "username": "root",
+          "password": "123456",
+          "position": 2,
+          "weight": 2
+        }
+      ]
+    }
+  ],
+  "clusters": []
+}
